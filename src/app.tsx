@@ -38,5 +38,11 @@ export function createApp(config: RigConfig = loadConfig()) {
     );
   });
 
+  app.get('/api/digest/:night', (c) => {
+    const digest = openNight(config.runsDir, c.req.param('night'));
+    if (!digest) return c.json({ error: 'no file' }, 404);
+    return c.json(digest);
+  });
+
   return app;
 }
