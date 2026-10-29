@@ -8,6 +8,7 @@ describe('readNight', () => {
   it('reads 2026-10-28 as 5 jobs and 1 bad line', () => {
     const night = readNight('runs', '2026-10-28');
     expect(night.badLines).toBe(1);
+    expect(night.counts).toEqual({ ok: 10, retry: 4, fail: 1 });
     expect(night.rows).toEqual([
       {
         job: 'digest/render',
@@ -74,6 +75,7 @@ describe('readNight', () => {
     );
     expect(readNight(dir, '2026-10-01')).toEqual({
       badLines: 1,
+      counts: { ok: 1, retry: 0, fail: 0 },
       rows: [
         {
           job: 'a',

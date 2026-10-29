@@ -44,6 +44,7 @@ export function readNight(runsDir: string, night: string): NightDigest {
   const text = readFileSync(join(runsDir, `${night}.jsonl`), 'utf8');
   const events: Event[] = [];
   let badLines = 0;
+  const counts = { ok: 0, retry: 0, fail: 0 };
 
   for (const [index, line] of text.split('\n').entries()) {
     if (line.trim() === '') continue;
@@ -53,6 +54,7 @@ export function readNight(runsDir: string, night: string): NightDigest {
       continue;
     }
     events.push(event);
+    counts[event.status] += 1;
   }
 
   events.sort((a, b) => a.ms - b.ms || a.index - b.index);
@@ -82,5 +84,5 @@ export function readNight(runsDir: string, night: string): NightDigest {
   }
 
   const rows = [...byJob.values()].sort((a, b) => a.job.localeCompare(b.job));
-  return { rows, badLines };
+  return { rows, badLines, counts };
 }
