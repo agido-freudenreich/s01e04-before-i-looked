@@ -11,8 +11,9 @@ export type DigestRow = {
   lastAt: string;
 };
 
-export function readNight(runsDir: string, night: string): DigestRow[] {
-  void runsDir;
-  void night;
-  return [];
-}
+export type NightDigest = {
+  rows: DigestRow[];
+  badLines: number;
+};
+
+export { readNight } from './read.js';
